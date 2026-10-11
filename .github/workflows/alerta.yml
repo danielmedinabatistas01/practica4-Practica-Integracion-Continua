@@ -1,0 +1,24 @@
+name: Notificacion de cambios
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  hola-mundo-y-notificacion:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar codigo
+        uses: actions/checkout@v4
+
+      - name: Ejecutar Hola Mundo
+        run: node index.js
+
+      - name: Enviar notificacion a ntfy
+        run: |
+          curl -H "Title: GitHub Actions" \
+               -H "Tags: white_check_mark" \
+               -d "Se ha subido codigo a la rama main del repositorio ${{ github.repository }}. Commit: ${{ github.sha }}" \
+               https://ntfy.sh/devops-itla
